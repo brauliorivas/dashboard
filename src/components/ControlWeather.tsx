@@ -4,9 +4,12 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useState, useRef } from 'react';
 
 export default function ControlWeather() {
+    const [selected, setSelected] = useState(-1);
+    const descriptionRef = useRef<HTMLDivElement>(null);
 
     {/* Arreglo de objetos */ }
     let items = [
@@ -17,6 +20,15 @@ export default function ControlWeather() {
 
     {/* Arreglo de elementos JSX */ }
     let options = items.map((item, key) => <MenuItem key={key} value={key}>{item["name"]}</MenuItem>)
+
+    const handleChange = (event: SelectChangeEvent) => {
+        let idx = parseInt(event.target.value)
+        setSelected(idx);
+
+        if (descriptionRef.current !== null) {
+            descriptionRef.current.innerHTML = (idx >= 0) ? items[idx]["description"] : ""
+        }
+    };
 
     {/* JSX */ }
     return (
@@ -41,6 +53,7 @@ export default function ControlWeather() {
                         id="simple-select"
                         label="Variables"
                         defaultValue='-1'
+                        onChange={handleChange}
                     >
                         <MenuItem key="-1" value="-1" disabled>Seleccione una variable</MenuItem>
 
@@ -51,7 +64,7 @@ export default function ControlWeather() {
 
             </Box>
 
-
+            <Typography ref={descriptionRef} mt={2} component="p" color="text.secondary" />
         </Paper>
 
 
