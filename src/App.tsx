@@ -4,6 +4,7 @@ import IndicatorWeather from './components/IndicatorWeather';
 import TableWeather from './components/TableWeather';
 import ControlWeather from './components/ControlWeather';
 import LineChartWeather from './components/LineChartWeather';
+import { Item } from './interface/Item';
 import { useState, useEffect } from 'react';
 
 interface Indicator {
@@ -14,6 +15,7 @@ interface Indicator {
 
 function App() {
     const [indicators, setIndicators] = useState<Indicator[]>([])
+    const [items, setItems] = useState<Item[]>([]);
 
     useEffect(() => {
         let request = async () => {
@@ -41,9 +43,30 @@ function App() {
             dataToIndicators.push({ "title": "Location", "subtitle": "Altitude", "value": altitude })
 
             setIndicators(dataToIndicators);
+
+
+            const dataToItems: Item[] = [];
+
+            const time = Array.from(xml.getElementsByTagName("time"));
+            const validTime = time.splice(0, 6);
+
+            validTime.forEach(time => {
+                const from = time.getAttribute("from") || "";
+                const to = time.getAttribute("to") || "";
+
+                const precipitation = time.getElementsByTagName("precipitation")[0].getAttribute("probability") || "";
+                const humidity = time.getElementsByTagName("humidity")[0].getAttribute("value") || "";
+                const clouds = time.getElementsByTagName("clouds")[0].getAttribute("all") || "";
+
+                const item: Item = { dateStart: from, dateEnd: to, precipitation, humidity, clouds };
+                dataToItems.push(item);
+            });
+
+            setItems(dataToItems);
         }
 
         request();
+
     }, []);
 
 
@@ -72,7 +95,7 @@ function App() {
                         <ControlWeather />
                     </Grid>
                     <Grid size={{ xs: 12, xl: 9 }}>
-                        <TableWeather />
+                        <TableWeather itemsIn={items} />
                     </Grid>
                 </Grid>
             </Grid>
