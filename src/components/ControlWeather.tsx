@@ -8,7 +8,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useState, useRef } from 'react';
 
 export default function ControlWeather() {
-    const [selected, setSelected] = useState(-1);
+    const [, setSelected] = useState(-1);
     const descriptionRef = useRef<HTMLDivElement>(null);
 
     {/* Arreglo de objetos */ }
