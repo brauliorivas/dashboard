@@ -5,20 +5,17 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 
-export default function ControlWeather() {
-    const [, setSelected] = useState(-1);
+export default function ControlWeather({ setSelected }: { setSelected: Function }) {
     const descriptionRef = useRef<HTMLDivElement>(null);
 
-    {/* Arreglo de objetos */ }
     let items = [
         { "name": "Precipitación", "description": "Cantidad de agua que cae sobre una superficie en un período específico." },
         { "name": "Humedad", "description": "Cantidad de vapor de agua presente en el aire, generalmente expresada como un porcentaje." },
         { "name": "Nubosidad", "description": "Grado de cobertura del cielo por nubes, afectando la visibilidad y la cantidad de luz solar recibida." }
     ]
 
-    {/* Arreglo de elementos JSX */ }
     let options = items.map((item, key) => <MenuItem key={key} value={key}>{item["name"]}</MenuItem>)
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -30,7 +27,6 @@ export default function ControlWeather() {
         }
     };
 
-    {/* JSX */ }
     return (
         <Paper
             sx={{
@@ -66,7 +62,5 @@ export default function ControlWeather() {
 
             <Typography ref={descriptionRef} mt={2} component="p" color="text.secondary" />
         </Paper>
-
-
     )
 }

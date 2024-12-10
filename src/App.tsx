@@ -6,6 +6,7 @@ import ControlWeather from './components/ControlWeather';
 import LineChartWeather from './components/LineChartWeather';
 import { Item } from './interface/Item';
 import { useState, useEffect } from 'react';
+import gye from "../public/gye.webp";
 
 interface Indicator {
     title?: String;
@@ -16,6 +17,7 @@ interface Indicator {
 function App() {
     const [indicators, setIndicators] = useState<Indicator[]>([])
     const [items, setItems] = useState<Item[]>([]);
+    const [selected, setSelected] = useState(-1);
 
     useEffect(() => {
         let request = async () => {
@@ -71,42 +73,37 @@ function App() {
 
 
     return (
-        <Grid container spacing={5}>
-
-            {/* Indicadores */}
-            {
-                indicators
-                    .map(
-                        (indicator, idx) => (
-                            <Grid key={idx} size={{ xs: 12, xl: 3 }}>
-                                <IndicatorWeather
-                                    title={indicator["title"]}
-                                    subtitle={indicator["subtitle"]}
-                                    value={indicator["value"]} />
-                            </Grid>
+        <>
+            <h1>Guayaquil</h1>
+            <img src={gye} style={{ width: "100%" }} />
+            <h2>Indicadores</h2>
+            <Grid container spacing={5}>
+                {
+                    indicators
+                        .map(
+                            (indicator, idx) => (
+                                <Grid key={idx} size={{ xs: 12, md: 3 }}>
+                                    <IndicatorWeather
+                                        title={indicator["title"]}
+                                        subtitle={indicator["subtitle"]}
+                                        value={indicator["value"]} />
+                                </Grid>
+                            )
                         )
-                    )
-            }
-
-            {/* Tabla */}
-            <Grid size={{ xs: 12, xl: 8 }}>
-                <Grid container spacing={2}>
-                    <Grid size={{ xs: 12, xl: 3 }}>
-                        <ControlWeather />
+                }
+                <Grid size={{ xs: 12 }}>
+                    <TableWeather itemsIn={items} />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                    <Grid size={{ xs: 12, xl: 6 }}>
+                        <ControlWeather setSelected={setSelected} />
                     </Grid>
-                    <Grid size={{ xs: 12, xl: 9 }}>
-                        <TableWeather itemsIn={items} />
+                    <Grid size={{ xs: 12, xl: 6 }}>
+                        <LineChartWeather itemsIn={items} selected={selected} />
                     </Grid>
                 </Grid>
             </Grid>
-
-            {/* Gráfico */}
-            <Grid size={{ xs: 12, xl: 4 }}>
-                <LineChartWeather />
-
-            </Grid>
-
-        </Grid>
+        </>
     )
 }
 

@@ -7,10 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Item } from '../interface/Item';
 import { useEffect, useState } from 'react';
-
-interface MyProp {
-    itemsIn: Item[];
-}
+import { MyProp } from "../interface/MyProp";
 
 export default function BasicTable(props: MyProp) {
     const [rows, setRows] = useState<Item[]>([]);
@@ -26,7 +23,7 @@ export default function BasicTable(props: MyProp) {
                     <TableRow>
                         <TableCell>Hora de inicio</TableCell>
                         <TableCell>Hora de fin</TableCell>
-                        <TableCell>Precipitación</TableCell>
+                        <TableCell>Probabilidad de Precipitación</TableCell>
                         <TableCell>Humedad</TableCell>
                         <TableCell>Nubosidad</TableCell>
                     </TableRow>
@@ -44,13 +41,13 @@ export default function BasicTable(props: MyProp) {
                                 {row.dateEnd}
                             </TableCell>
                             <TableCell component="th" scope="row">
-                                {row.precipitation}
+                                {row.precipitation} %
                             </TableCell>
                             <TableCell component="th" scope="row">
-                                {row.humidity}
+                                {row.humidity} %
                             </TableCell>
                             <TableCell component="th" scope="row">
-                                {row.clouds}
+                                {row.clouds} %
                             </TableCell>
                         </TableRow>
                     ))}
