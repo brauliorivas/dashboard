@@ -6,7 +6,7 @@ import ControlWeather from './components/ControlWeather';
 import LineChartWeather from './components/LineChartWeather';
 import { Item } from './interface/Item';
 import { useState, useEffect } from 'react';
-import gye from "../public/gye.webp";
+import gye from "./assets/gye.webp";
 
 interface Indicator {
     title?: String;
@@ -95,10 +95,10 @@ function App() {
                     <TableWeather itemsIn={items} />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
-                    <Grid size={{ xs: 12, xl: 6 }}>
+                    <Grid size={{ xs: 12 }}>
                         <ControlWeather setSelected={setSelected} />
                     </Grid>
-                    <Grid size={{ xs: 12, xl: 6 }}>
+                    <Grid size={{ xs: 12 }}>
                         <LineChartWeather itemsIn={items} selected={selected} />
                     </Grid>
                 </Grid>
